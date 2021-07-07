@@ -1,34 +1,21 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
-        
-        int left=0,right=nums.size()-1;
-        if(left>right)return -1;
-        if(right<=1){
-            for(int i=0;i<=right;i++)if(target==nums[i])return i;
-            return -1;
-        }
-        while(left<=right){
-            int mid=(left+right)/2;
+     int search(vector<int>& nums, int target) {
+        int n=nums.size();
+       int low=0,high=n-1;
+        while(low<=high){
+            int mid=low+(high-low)/2;
             if(nums[mid]==target)return mid;
-            if(nums[left]==target)return left;
-            if(nums[right]==target)return right;
-            if(nums[mid]>nums[left]){
-                if(nums[left]<=target && nums[mid]>target){
-                    right=mid-1;
-                }
-                else{
-                    left=mid+1;
-                }
+            //check if left half is sorted in ascending order
+            if(nums[low]<=nums[mid]){
+                //check if target is in left half ka range
+                if(nums[low]<=target and target<=nums[mid])high=mid-1;
+                else low=mid+1;
             }
-            else{
-                
-                if(nums[mid]<target && nums[right]>=target){
-                    left=mid+1;
-                }
-                else{
-                    right=mid-1;
-                }
+            else {
+                //check if target is in right half ka range
+                if(target<=nums[high] and nums[mid]<=target)low=mid+1;
+                else high=mid-1;
             }
         }
         return -1;
