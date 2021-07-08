@@ -1,19 +1,18 @@
-#include<bits/stdc++.h>
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        multiset<int>ms;
-        for(int i=0;i<nums.size();i++){
-            ms.insert(nums[i]);
+        if(nums.size()<=1)return -1;
+        int n=nums.size();
+        int slow=nums[0],fast=nums[0];
+        do{
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+        }while(slow!=fast);
+        slow=nums[0];
+        while(slow!=fast){
+            slow=nums[slow];
+            fast=nums[fast];
         }
-        int result;
-        for(int i=0;i<nums.size();i++){
-            int count=ms.count(nums[i]);
-            if(count>1){
-                   result=nums[i];
-                    break;
-            }
-        }
-        return result;
+        return slow;
     }
 };
