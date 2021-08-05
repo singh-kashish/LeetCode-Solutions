@@ -1,4 +1,6 @@
-name: Sync Leetcode
+
+- name: LeetCode Sync
+  uses: joshcai/leetcode-sync@v1.3
 
 on:
   workflow_dispatch:
