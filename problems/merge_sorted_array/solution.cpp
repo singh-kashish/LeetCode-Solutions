@@ -1,26 +1,27 @@
 class Solution {
 public:
-    void swap(int &a,int &b){
-        int temp=a;
-        a=b;
-        b=temp;
-    }
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        if(m==0 and n!=0){
-            nums1.clear();
-            for(auto x:nums2){
-                nums1.push_back(x);
-            }
+        if(m==0){
+            swap(nums1,nums2);
+            return;
         }
-        else if(m!=0 and n==0)return;
+        else if(n==0)return;
         else{
-            int a=m-1,b=n-1,i=m+n-1;
-            while(a>=0 and b>=0){
-                if(nums1[a]>nums2[b])nums1[i--]=nums1[a--];
-                else nums1[i--]=nums2[b--];
+            int fillingPlaceHolder = m+n-1;
+            int first = m-1, second = n-1;
+            while( first >= 0 and second >= 0 ){
+                if(nums1[first]>=nums2[second]){
+                    nums1[fillingPlaceHolder--]=nums1[first--];
+                }
+                else{
+                    nums1[fillingPlaceHolder--]=nums2[second--];
+                }
             }
-            while(b>=0){
-                nums1[i--]=nums2[b--];
+            if(second<0)return; 
+            else if(first<0){
+                while(second>=0){
+                    nums1[fillingPlaceHolder--] = nums2[second--];
+                }
             }
         }
     }
