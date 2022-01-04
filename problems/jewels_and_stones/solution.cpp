@@ -5,10 +5,10 @@ public:
         for(auto x:jewels){
             s.insert(x);
         }
-        int res=0;
+        int result = 0;
         for(auto x:stones){
-            if(s.find(x)!=s.end())res++;
+            if(s.find(x)!=s.end())result++;
         }
-        return res;
+        return result;
     }
 };
