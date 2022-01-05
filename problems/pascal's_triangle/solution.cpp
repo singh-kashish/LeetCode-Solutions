@@ -1,22 +1,15 @@
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>>result;
+        vector<vector<int>>pascal;
         for(int i=0;i<numRows;i++){
-            vector<int>temp;
-            for(int j=0;j<=i;j++){
-                 if(j==i || j==0)temp.push_back(1);
-                
-                else{
-                    int p=result[i-1][j-1]+result[i-1][j];
-                     temp.push_back(p);
-                }
-            }
-            result.push_back(temp);
-            
+            pascal.push_back(vector<int>(i+1,1));
         }
-        //vector<int>v{1,2,3};
-        //result.insert(result.end(),v);
-        return result;
+        for(int i=0;i<numRows;i++){
+            for(int j = 1 ; j < i ; j++){
+                pascal[i][j] = pascal[i-1][j-1]+pascal[i-1][j];
+            }
+        }
+        return pascal;
     }
 };
