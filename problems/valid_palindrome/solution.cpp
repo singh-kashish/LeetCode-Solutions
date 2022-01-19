@@ -1,15 +1,27 @@
 class Solution {
 public:
-    bool isPalindrome(string s) {
-        int left=0,right=s.length()-1;
-        while(left<right){
-            if(!isalnum(s[left]))left++;
-            else if(!isalnum(s[right]))right--;
-            else {
-                if(tolower(s[left++])!=tolower(s[right--]))return false;
+    bool palindromeCheck(string s){
+        int l=0,r=s.length()-1;
+        while(l<=r){
+            if(s[l]!=s[r])return false;
+            else{
+                l++;
+                r--;
             }
         }
         return true;
+    }
+    bool isPalindrome(string s) {
         
+        string str;
+        for(auto x:s){
+            if(isalpha(x))str+=tolower(x);
+            if(isdigit(x))str+=x-'0';
+        }
+       if(str.length()==0){
+           return true;
+       }
+    
+        return palindromeCheck(str);
     }
 };
