@@ -11,41 +11,10 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        // if(!head)return head;
-        // int totalNodes=0;
-        // ListNode *t=head;
-        // while(t){
-        //     t=t->next;
-        //     totalNodes++;
-        // }
-        // int currentIterate=0;
-        // ListNode *curr=head,*prevFirst=NULL;
-        // bool isFirstPass = true;
-        // while(currentIterate+k<=totalNodes and curr){
-        //     ListNode *prev=NULL,*first= curr;
-        //     int count=0;
-        //     while(curr and count<k){
-        //         ListNode *next=curr->next;
-        //         curr->next=prev;
-        //         prev=curr;
-        //         curr=next;
-        //         count++;
-        //     }
-        //     currentIterate+=k;
-        //     if(isFirstPass){
-        //         head = prev;
-        //         isFirstPass=false;
-        //     }
-        //     else prevFirst->next=prev;
-        //     prevFirst = prev;
-        // }
-        // if(curr)prevFirst->next=curr;
-        // return head;
-        ListNode *curr=head,*prevFirst=NULL;
-        bool firstPass=true;
-        while(curr){
-            ListNode *first=curr,*prev=NULL;
-            int count=0;
+        ListNode *curr = head , *prevFirst=head;
+        bool firstPass = true;
+        while(curr)
+        {
             ListNode *temp=curr;
             for(int i=0;i<k;i++){
                 if(temp==NULL){
@@ -54,26 +23,23 @@ public:
                 }
                 temp=temp->next;
             }
-            
-            while(curr and count<k){
-                auto *next=curr->next;
-                curr->next=prev;
-                prev=curr;
-                curr=next;
-                count++;
+            ListNode *next = NULL,*prev=NULL, * first = curr;
+            for(int count=0;curr and count<k;count++){
+                next = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = next;
             }
-            if(firstPass==true){
-                head=prev;
+            if(firstPass){
                 firstPass=false;
+                head = prev;
             }
             else{
-                prevFirst->next=prev;
-              
+                prevFirst->next = prev;
             }
-              prevFirst=first;
+            prevFirst = first;
         }
         return head;
-      
         
     }
 };
