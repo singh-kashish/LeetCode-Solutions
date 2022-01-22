@@ -9,39 +9,42 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int a=0,b=0;
-        ListNode *curr=headA;
-            while(curr){
-                a++;
-                curr=curr->next;
-            }
-        curr=headB;
-        while(curr){
-            b++;
-            curr=curr->next;
+        ListNode * itr1 = headA, *itr2 = headB;
+        if(headA==headB)return headA;
+        if(headA and !headB)return NULL;
+        if(!headA and headB)return NULL;
+        int count1 = 1, count2 = 1;
+        while(itr1->next){
+            ++count1;
+            itr1 = itr1->next;
         }
-        if(a>b){
-            curr=headA;
-            for(int i=0;i<abs(a-b);i++)curr=curr->next;
-            ListNode *p=headB;
-            while(p and curr){
-                if(p==curr)return p;
+        while(itr2->next){
+            ++count2;
+            itr2 = itr2->next;
+        }
+        if(itr1!=itr2)return NULL;
+        else {
+            if(count1>=count2){
+                itr1 = headA;
+                itr2 = headB;
+                for(int i=0;i<count1-count2;i++)itr1=itr1->next;
+                while(itr1!=itr2){
+                    itr1=itr1->next;
+                    itr2=itr2->next;
+                }
+                return itr1;
+            }
+            else{
+                itr1 = headA;
+                itr2 = headB;
+                for(int i=0;i<count2-count1;i++)itr2=itr2->next;
+                while(itr1!=itr2){
+                    itr1=itr1->next;
+                    itr2=itr2->next;
+                }
+                return itr1;
                 
-                p=p->next;
-                curr=curr->next;
             }
-            return NULL;
-        }
-        else{
-            curr=headA;
-            ListNode *p=headB;
-            for(int i=0;i<abs(a-b);i++)p=p->next;
-            while(p and curr){
-                if(p==curr)return p;
-                p=p->next;
-                curr=curr->next;
-            }
-            return NULL;
         }
     }
 };
