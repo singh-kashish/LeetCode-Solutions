@@ -10,40 +10,43 @@
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if(!l1 and !l2)return NULL;
-        if(!l1)return l2;
-        if(!l2)return l1;
-        ListNode *firstList = l1,*secondList =l2;
-        ListNode *head = NULL, *tail = NULL;
-        while(firstList and secondList){
-            if(firstList->val>=secondList->val){
-                if(!head){
-                    head = secondList;
-                    tail= secondList;
-                    secondList =secondList->next;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(!list1 and !list2)return list1;
+        else if(!list1 and list2)return list2;
+        else if(!list2 and list1)return list1;
+        else{
+             ListNode *t=list1,*p=list2,*head=NULL,*tail=NULL;
+                while(t and p){
+                    if(t->val <= p->val){
+                        if(!head){
+                            head = t;
+                            tail = t;
+                            t=t->next;
+                        }
+                        else{
+                            tail->next=t;
+                            t=t->next;
+                            tail=tail->next;
+                        }
+                    }
+                    else{
+                    if(!head){
+                        head = p;
+                        tail = p;
+                        p=p->next;
+                    }
+                    else{
+                        tail->next = p;
+                        tail=tail->next;
+                        p=p->next;
+                    }
                 }
-                else {
-                    tail->next = secondList;
-                    secondList = secondList->next;
-                    tail = tail->next;
-                }
-            }
-            else {
-                if(!head){
-                    head = firstList;
-                    tail=firstList;
-                    firstList = firstList->next;
-                }
-                else {
-                    tail->next=firstList;
-                    firstList = firstList->next;
-                    tail=tail->next;
-                }
-            }
         }
-        if(firstList)tail->next=firstList;
-        if(secondList)tail->next = secondList;
+        if(!t and !p)return head;
+        else if(!p and t)tail->next = t;
+        else if(!t and p)tail->next = p;
         return head;
+        }
+        
     }
 };
