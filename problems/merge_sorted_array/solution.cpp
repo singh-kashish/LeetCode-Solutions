@@ -1,28 +1,36 @@
 class Solution {
 public:
+    void insertAndMove(vector<int>&nums,int i,int number){
+        nums[i]=number;
+        for(int j=i;j<nums.size();j++){
+            nums[j] = nums[j+1];
+        }
+        return;
+    }
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         if(m==0){
-            swap(nums1,nums2);
+            nums1=nums2;
             return;
         }
-        else if(n==0)return;
+        else if(n==0){
+            return;
+        }
         else{
-            int fillingPlaceHolder = m+n-1;
-            int first = m-1, second = n-1;
-            while( first >= 0 and second >= 0 ){
-                if(nums1[first]>=nums2[second]){
-                    nums1[fillingPlaceHolder--]=nums1[first--];
-                }
+            //cout<<"m->"<<m<<" n->"<<n<<endl;
+            int left = 0 ,right = 0;
+            while(left<m and right<n){
+                if(nums1[left]<=nums2[right])left++;
                 else{
-                    nums1[fillingPlaceHolder--]=nums2[second--];
+                   
+                    swap(nums1[left++],nums2[right]);
+                     sort(nums2.begin(),nums2.end());
                 }
+                //cout<<"left->"<<left<<" right->"<<right<<endl;
             }
-            if(second<0)return; 
-            else if(first<0){
-                while(second>=0){
-                    nums1[fillingPlaceHolder--] = nums2[second--];
-                }
+            while(left<nums1.size()){
+                nums1[left++]=nums2[right++];
             }
         }
+        return;
     }
 };
