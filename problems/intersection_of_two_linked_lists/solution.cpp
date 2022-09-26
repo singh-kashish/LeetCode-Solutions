@@ -9,29 +9,35 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        if(!headA or !headB)return NULL;
-        int lengthA = 0, lengthB = 0;
-        ListNode *temp = headA;
-        while(temp){
-            lengthA++;
-            temp = temp->next;
+        ListNode *currA = headA,*currB=headB;
+        int a = 0,b=0;
+        while(currA){
+            a++;
+            currA=currA->next;
         }
-        temp = headB;
-        while(temp){
-            lengthB++;
-            temp = temp->next;
+        while(currB){
+            b++;
+            currB = currB->next;
         }
-        ListNode * itrA = headA, *itrB = headB;
-        if(lengthA<=lengthB){
-            for(int i=0;i<lengthB-lengthA and itrB;i++)itrB=itrB->next;
+        currA = headA,currB = headB;
+        if(a>b){
+            for(int i=0;currA and i<a-b;i++){
+                currA = currA->next;
+            }
         }
-        else {
-            for(int i=0;i<lengthA-lengthB and itrA;i++)itrA = itrA->next;
+        else if(b>a){
+            for(int i=0;currB and i<b-a;i++){
+                currB = currB->next;
+            }
         }
-        while(itrA and itrB and itrA!=itrB){
-            itrA = itrA->next;
-            itrB = itrB->next;
+        while(currA and currB){
+            if(currA==currB)return currA;
+            if(currA->next == currB->next)return currA->next;
+            else {
+                currA = currA->next;
+                currB = currB->next;
+            }
         }
-        return itrA;
+        return NULL;
     }
 };
