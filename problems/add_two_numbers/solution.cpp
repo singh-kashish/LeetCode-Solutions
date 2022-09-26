@@ -11,26 +11,58 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        if(l1==NULL)return l2;
+        ListNode *res = NULL,*curr=res;
+        if(!l1)return l2;
         if(!l2)return l1;
-        int sum = l1->val + l2->val;
-        int carry = sum/10;
-        if(sum>9)sum=sum%10;
-        ListNode * head = new ListNode(sum);
-        ListNode *tail=head;
-        ListNode *curr1=l1->next,*curr2=l2->next;
-        while(curr1 or curr2){
-            int a = curr1?curr1->val:0;
-            int b = curr2?curr2->val:0;
-            sum = carry + a + b;
+        int carry = 0,sum=0;
+        while(l1 and l2){
+            sum = l1->val + l2->val+carry;
             carry = sum/10;
-            if(sum>9)sum=sum%10;
-            tail->next = new ListNode(sum);
-            tail=tail->next;
-            if(curr1)curr1=curr1->next;
-            if(curr2)curr2=curr2->next;
+            if(sum>=10)sum=sum%10;
+            if(!res){
+                res = new ListNode(sum);
+                curr = res;
             }
-        if(carry!=0)tail->next=new ListNode(carry);
-        return head;
+            else{
+                curr->next = new ListNode(sum);
+                curr = curr->next;
+            }
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        while(l1 and !l2){
+            sum = l1->val +carry;
+            carry = sum/10;
+            if(sum>=10)sum=sum%10;
+            if(!res){
+                res = new ListNode(sum);
+                curr = res;
+            }
+            else{
+                curr->next = new ListNode(sum);
+                curr = curr->next;
+            }
+            l1=l1->next;
+        }
+        while(!l1 and l2){
+            sum = l2->val+carry;
+            carry = sum/10;
+            if(sum>=10)sum=sum%10;
+            if(!res){
+                res = new ListNode(sum);
+                curr = res;
+            }
+            else{
+                curr->next = new ListNode(sum);
+                curr = curr->next;
+            }
+            l2 = l2->next;
+        }
+        while(carry>0){
+            curr->next = new ListNode(carry%10);
+            carry = carry/10;
+            curr = curr->next;
+        }
+        return res;
     }
 };
