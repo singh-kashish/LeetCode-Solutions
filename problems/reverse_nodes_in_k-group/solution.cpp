@@ -10,36 +10,60 @@
  */
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode *curr = head , *prevFirst=head;
-        bool firstPass = true;
-        while(curr)
-        {
-            ListNode *temp=curr;
-            for(int i=0;i<k;i++){
-                if(temp==NULL){
-                 prevFirst->next=curr;
-                    return head;
-                }
-                temp=temp->next;
-            }
-            ListNode *next = NULL,*prev=NULL, * first = curr;
-            for(int count=0;curr and count<k;count++){
-                next = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = next;
-            }
-            if(firstPass){
-                firstPass=false;
-                head = prev;
-            }
-            else{
-                prevFirst->next = prev;
-            }
-            prevFirst = first;
+    ListNode *reverse(ListNode *head,ListNode *nextLineStart){
+        ListNode *next,*prev=NULL,*curr=head;
+        while(curr!=nextLineStart){
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
         }
-        return head;
-        
+        return prev;
     }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+       ListNode *curr=head,*toReturnHead=NULL,*lastEnd;
+        ListNode *temp=head;
+        int n=0;
+        while(temp){
+            n++;
+            temp=temp->next;
+        }
+        if(k==n)return reverse(head,NULL);
+        else{
+            while(curr){
+                ListNode *nextLineStart=curr;
+                bool toReverse=false;
+                for(int i=0;i<k and nextLineStart;i++){
+                    nextLineStart=nextLineStart->next;
+                    if(i==k-1)toReverse=true;
+                }
+                if(!toReturnHead){
+                    if(toReverse){
+                        toReturnHead=reverse(curr,nextLineStart);
+                        ListNode *p=head;
+                        while(p->next){
+                            p=p->next;
+                        }
+                        lastEnd=p;
+                    }
+                }
+                else{
+                    if(toReverse){
+                        ListNode *nextHead=reverse(curr,nextLineStart);
+                        lastEnd->next =nextHead;
+                        ListNode *p=lastEnd->next;
+                        while(p->next){
+                            p=p->next;
+                        }
+                        lastEnd=p;
+                    }
+                    else{
+                        lastEnd->next = curr;
+                    }
+              }
+                curr=nextLineStart;
+            }
+            return toReturnHead;
+            }    
+        }
 };
