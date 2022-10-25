@@ -1,25 +1,22 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        if(s.length()==1)return 1;
-      unordered_set<int>se;
-        int left=0,right=1;
-        int res=0;
-        se.insert(s[0]);
-        int curr=1;
-        while(right<s.length() and left<s.length()){
-            if(se.find(s[right])==se.end()){
-                curr++;
-                res=max(res,curr);
-                se.insert(s[right++]);
+        int left=0;
+        int n=s.length(),res=0;
+        unordered_map<char,int>dict;
+        for(int i=0;i<n;i++){
+            if(dict.find(s[i])==dict.end()){
+                dict[s[i]]=i;
+                int si=dict.size();
+                res=max(res,si);
             }
             else{
-                res=max(res,curr);
-                curr=1;
-                left++;
-                se.clear();
-                se.insert(s[left]);
-                right=left+1;
+                int to = dict[s[i]];
+                for(int p=left;p<to;p++){
+                    dict.erase(s[p]);
+                }
+                dict[s[i]]=i;
+                left=to+1;
             }
         }
         return res;
