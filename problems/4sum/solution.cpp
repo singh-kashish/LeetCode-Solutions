@@ -1,32 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        int n = nums.size();
-        vector<vector<int>>result;
-        if(n==0)return result;
+        vector<vector<int>>res;
+        if(nums.size()==0)return res;
         sort(nums.begin(),nums.end());
-        for( int i=0; i<n; i++){
-            for( int j = i + 1 ; j < n; j++ ){
-                int left = j+1 ,right = n-1;
-                int target_1 = target - (nums[i]+nums[j]);
-                while(left<right){
-                    if(target_1 < nums[left]+nums[right] )right--;
-                    else if(target_1 > nums[left] + nums[right])left++;
+        for(int i=0;i<nums.size();i++){
+            long long int sum_1 = target-nums[i];
+            for(int j=i+1;j<nums.size();j++){
+                int start = j+1;
+                long long int sum_2=sum_1-nums[j];
+                int end = nums.size()-1;
+                while(start<end){
+                    long long int sum = nums[start]+nums[end];
+                    if(sum<sum_2){
+                        start++;
+                    }
+                    else if(sum>sum_2){
+                        end--;
+                    }
                     else{
-                        vector<int>quad(4,0);
-                        quad[0] = nums[i];
-                        quad[1] = nums[j];
-                        quad[2] = nums[left];
-                        quad[3] = nums[right];
-                        result.push_back(quad);
-                        while(left<right and quad[2]==nums[left])left++;
-                        while(right>left and quad[3]==nums[right])right--;
+                        vector<int>quad = {nums[i],nums[j],nums[start],nums[end]};
+                        res.push_back(quad);
+                        while(start<end and nums[start]==quad[2])start++;
+                        while(start<end and nums[end]==quad[3])end--;
                     }
                 }
-                while(j+1<n and nums[j]==nums[j+1])j++;
+                while(j+1<nums.size() and nums[j]==nums[j+1])++j;
             }
-                while(i+1<n and nums[i]==nums[i+1])i++;
+            while(i+1<nums.size() and nums[i]==nums[i+1])++i;
         }
-        return result;
+        return res;
     }
 };
