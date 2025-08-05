@@ -1,18 +1,14 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        const int CHAR=256;
-        char arr[CHAR];
-        fill(arr,arr+CHAR,0);
-        int n=s.length();
-        int m=t.length();
-        if(n!=m)return false;
-        for(int i=0;i<n;i++){
-            arr[s[i]]++;
-            arr[t[i]]--;
-        }
-        for(int i=0;i<CHAR;i++){
-            if(arr[i]!=0)return false;
+        // Use hash map to store the occurences of every character in 1st string
+        unordered_map<char,int> st;
+        for(auto x: s)st[x]++;
+        // Traverse the second string and decrement the occurence of every character
+        for(auto x:t)st[x]--;
+        // Traverse the map and check if all keys have value of 0, if yes return true, if any key's value isn't 0 then return false;
+        for(auto [x,y]:st){
+            if(y!=0)return false;
         }
         return true;
     }
