@@ -1,24 +1,18 @@
 class Solution {
 public:
-    string cmp(string a,string b){
-        int n=a.length(),m=b.length();
-        int i=0,j=0;
-        while(i<n and j<m){
-            if(a[i]!=b[i]){
-                if(i==0)return "";
-                return a.substr(0,i);
-            }
-            i++;j++;
-        }
-        if(n<=m)return a;
-        else return b;
-    }
     string longestCommonPrefix(vector<string>& strs) {
         if(strs.size()==0)return "";
-        string lcp=strs[0];
-        for(int i=1;i<strs.size();i++){
-            lcp=cmp(lcp,strs[i]);
+        if(strs.size()==1)return strs[0];
+        // Vertical Scanning approach - 2 loops
+        for(int i=0;i<strs[0].length();i++){
+            char charAtThisIndex = strs[0][i];
+            //Check for each nextWord if the size of word is equal to i then that's the longest prefix or if the character at nextWord at same index is not matching then our longest prefix substring is till the last checked character because the loop below will check for all strings in the array whether the character matches or not, as well as whether the size is exceeding the current i which keeps track of first string's character index
+            for(int nextWord=1;nextWord<strs.size();nextWord++){
+                if(i==strs[nextWord].size() || charAtThisIndex!=strs[nextWord][i]){
+                    return strs[0].substr(0,i);
+                }
+            }
         }
-        return lcp;
+        return strs[0];
     }
 };
