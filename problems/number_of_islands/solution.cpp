@@ -1,32 +1,37 @@
 class Solution {
 public:
-    void dfs(int i,int j,vector<vector<char>>&grid){
-        int m = grid.size() , n = grid[0].size();
-        if(i<0 or j<0 or i>=m or j>=n or grid[i][j]=='0')return;
+    void bfs(vector<vector<char>>& grid, int i,int j) {
+        int m = grid.size(), n = grid[0].size();
+        queue<pair<int,int>>q;
+        q.push({i,j});
         grid[i][j]='0';
-        dfs(i+1,j,grid);
-        dfs(i,j+1,grid);
-        dfs(i-1,j,grid);
-        dfs(i,j-1,grid);
-        
-    }
-    int numIslands(vector<vector<char>>& grid) {
-        
-        int count = 0;
-        int m = grid.size() , n = grid[0].size();
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1'){
-                    grid[i][j]='0';
-                    count++;
-                    dfs(i+1,j,grid);
-                    dfs(i,j+1,grid);
-                    dfs(i-1,j,grid);
-                    dfs(i,j-1,grid);
-                  
+        int directions[4][2]={{1,0},{0,1},{0,-1},{-1,0}};
+        while(!q.empty()){
+            auto [row,col] = q.front();
+            q.pop();
+            for(auto &dir:directions){
+                int deltaX=row+dir[0], deltaY = col+dir[1];
+                if(deltaX>=0 && deltaY>=0 && deltaX<m && deltaY<n && grid[deltaX][deltaY]=='1'){
+                    grid[deltaX][deltaY]='0';
+                    q.push({deltaX,deltaY});
                 }
             }
         }
-        return count;
+    }
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.size()==0)return 0;
+        int m = grid.size();
+        int n = grid[0].size();
+        int countOfIslands = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]=='1'){
+                    countOfIslands++;
+                    bfs(grid,i,j);
+                }
+            }
+        }
+        return countOfIslands;
     }
 };
