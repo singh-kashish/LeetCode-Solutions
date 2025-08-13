@@ -1,10 +1,7 @@
 class Solution {
 public:
     bool isPowerOfThree(int n) {
-        if(n<=0)return false;
-        else{
-         int max3=pow(3,19);
-        return n>0 and max3%n==0;
-        }
+        int maxValueOf3in32BitsInt = pow(3,19);
+        return (n>0 && (maxValueOf3in32BitsInt%n==0));
     }
 };
