@@ -1,15 +1,16 @@
 class Solution {
 public:
     double findMaxAverage(vector<int>& nums, int k) {
-        int sum = 0;
-        // since avg is sum/k , so we can directly compare sum since k is fixed
-        for(int i=0;i<k;i++)sum+=nums[i];
-        int maximumSum = sum;
-        for(int i=k;i<nums.size();i++){
-            sum = sum+nums[i]-nums[i-k];
-            maximumSum = max(sum,maximumSum);
+        int windowSum=0;
+        for(int i=0;i<k;i++)windowSum+=nums[i];
+        int maxSum = windowSum;
+        int windowEnd = k, windowStart=0;
+        while(windowEnd<nums.size()){
+            windowSum = nums[windowEnd]-nums[windowStart]+windowSum;
+            windowEnd++;
+            windowStart++;
+            maxSum = max(windowSum,maxSum);
         }
-        
-        return (double)maximumSum/k;
+        return (double)maxSum/k;
     }
 };
