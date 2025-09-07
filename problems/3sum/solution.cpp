@@ -1,28 +1,29 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-       vector<vector<int>>result;
-        int n=nums.size();
+        int n = nums.size();
+        vector<vector<int>>res;
+        if(n<3)return res;
         sort(nums.begin(),nums.end());
-        for(int i=0;i<n;i++){
-                int left=i+1,right=n-1;
-                while(left<right){
-                    int sum = nums[left]+nums[right]+nums[i];
-                    if(sum==0){
-                        vector<int>triplet={nums[i],nums[left],nums[right]};
-                        result.push_back(triplet);
-                        while(left<right and nums[left]==triplet[1]){
-                            left++;
-                        }
-                        while(right>left and nums[right]==triplet[2]){
-                            right--;
-                        }
-                    }
-                else if(nums[left]+nums[right]+nums[i]>0)right--;
-                else left++;
+        for(int itr=0 ; itr<n; itr++){
+            // Skip duplicates
+            if(itr>0 && nums[itr]==nums[itr-1])continue;
+            int leftPtr=itr+1 , rightPtr = n-1;
+            while(leftPtr<rightPtr){
+                int sum = nums[itr]+nums[leftPtr]+nums[rightPtr];
+                if(sum==0){
+                    res.push_back({nums[itr],nums[leftPtr],nums[rightPtr]});
+                    leftPtr++;
+                    rightPtr--;
+                    //Skip duplicates
+                    while(leftPtr<rightPtr && nums[leftPtr]==nums[leftPtr-1])leftPtr++;
+                    while(leftPtr<rightPtr && nums[rightPtr]==nums[rightPtr+1])rightPtr--;
                 }
-            while(i+1<n and nums[i]==nums[i+1])i++;
+                else if(sum<0)leftPtr++;
+                else rightPtr--;
+            }
         }
-        return result;
+        return res;
+        
     }
 };
