@@ -11,17 +11,21 @@
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        if(!head or !head->next)return head;
-        ListNode * curr = head, *next;
-        head = head->next;
-        while(curr and curr->next){
-            next = curr->next->next;
-            curr->next->next = curr;
-            if(!next)curr->next = NULL;
-            else if(next and !next->next)curr->next = next;
-            else curr->next = next->next;
-            curr = next;
+        if(!head || !head->next)return head;
+        ListNode * dummy = new ListNode(0,head);
+        ListNode * prev = dummy;
+        while(prev->next && prev->next->next){
+            // Get first and second node
+            ListNode *first = prev->next;
+            ListNode *second = first->next;
+            // Swap pointers
+            first->next = second->next;
+            second->next = first;
+            // Attach prev next to second which is actually at first now
+            prev->next = second;
+            // Attach prev to second of pair now, which was originally first
+            prev = first;
         }
-        return head;
+        return dummy->next;
     }
 };
