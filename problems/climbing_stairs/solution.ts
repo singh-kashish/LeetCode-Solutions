@@ -1,9 +1,8 @@
 function climbStairs(n: number): number {
-    if(n==1)return 1;
-    else if(n==2)return 2;
-    let resArr = new Array(n+1);
-    resArr[0]=1;
-    resArr[1]=2;
-    for(let i=2;i<=n;i++)resArr[i] = resArr[i-1] + resArr[i-2];
-    return resArr[n-1];
+    let dp:number[]= new Array(n+1);
+    dp[0]=0;
+    dp[1]=1;
+    dp[2]=2;
+    for(let itr=3 ; itr<=n;itr++)dp[itr]=dp[itr-1]+dp[itr-2];
+    return dp[n];
 };
