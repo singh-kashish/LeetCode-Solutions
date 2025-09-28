@@ -1,15 +1,10 @@
 function coinChange(coins: number[], amount: number): number {
-    let minCoinsNeededForThisAmount : number [] = new Array(amount+1).fill(Infinity);
-    minCoinsNeededForThisAmount[0]=0;
-    for(let thisAmount = 1 ; thisAmount <= amount; thisAmount++){
-        for(const coin of coins){
-            if(coin<=thisAmount){
-                const remainingAmountAfterUsingThisCoin = thisAmount-coin;
-                if(minCoinsNeededForThisAmount[remainingAmountAfterUsingThisCoin]!==Infinity){
-                    minCoinsNeededForThisAmount[thisAmount] = Math.min(minCoinsNeededForThisAmount[remainingAmountAfterUsingThisCoin]+1,minCoinsNeededForThisAmount[thisAmount]);
-                }
-            }
+    let dp:number[]= new Array(amount+1).fill(Infinity);
+    dp[0]=0;
+    for(let i=1;i<=amount;i++){
+        for(let coin of coins){
+            if(i>=coin && dp[i-coin]!==Infinity)dp[i] = Math.min(dp[i-coin]+1,dp[i]);
         }
     }
-    return minCoinsNeededForThisAmount[amount]===Infinity? -1 : minCoinsNeededForThisAmount[amount];
+    return dp[amount]===Infinity?-1:dp[amount];
 };
