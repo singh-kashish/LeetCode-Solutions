@@ -10,30 +10,41 @@
  * };
  */
 class Solution {
+private:
+    void reverse(vector<int>&temp){
+        int l=0,r=temp.size()-1;
+        while(l<=r){
+            int t= temp[l];
+            temp[l]=temp[r];
+            temp[r]=t;
+            l++;
+            r--;
+        }
+};
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if(root==NULL)return {};
         queue<TreeNode*>q;
-        q.push(root);
-        int level=1;
         vector<vector<int>>res;
-        while(q.empty()==false){
-            int n=q.size();
-            vector<int>ans;
-            for(int i=0;i<n;i++){
-                TreeNode *temp = q.front();
+        if(!root)return res;
+        q.push(root);
+        int i=0;
+        while(!q.empty()){
+            int n = q.size();
+            vector<int>temp;
+            while(n){
+                auto curr = q.front();
                 q.pop();
-                ans.push_back(temp->val);
-                if(temp->left)q.push(temp->left);
-                if(temp->right)q.push(temp->right);
+                temp.push_back(curr->val);
+                n--;
+                if(curr->left)q.push(curr->left);
+                if(curr->right)q.push(curr->right); 
             }
-            if(level%2==1){
-                res.push_back(ans);
+            if(i%2==0)res.push_back(temp);
+            else {
+                reverse(temp);
+                res.push_back(temp);
             }
-            else{
-                res.push_back(vector<int>(ans.rbegin(),ans.rend()));
-            }
-            level++;
+            i++;
         }
         return res;
     }
