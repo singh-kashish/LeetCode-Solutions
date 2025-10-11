@@ -1,16 +1,15 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        int n = coins.size();
-        int dp[n+1][amount+1];
-        memset(dp,0,sizeof(dp));
-        for(int i=0;i<=n;i++)dp[i][0]=1;
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=amount;j++){
-                if(j>=coins[i-1])dp[i][j]=dp[i][j-coins[i-1]]+dp[i-1][j];
-                else dp[i][j]=dp[i-1][j];
+        vector<unsigned long long>dp(amount+1,0);
+        dp[0] = 1;
+        for (int coin : coins) {
+            if (coin > amount) break;
+            for (int a = coin; a <= amount; ++a) {
+                dp[a] += dp[a - coin];
             }
         }
-        return dp[n][amount];
+        return static_cast<int>(dp[amount]);
     }
+
 };
